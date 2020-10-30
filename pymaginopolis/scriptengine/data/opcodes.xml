@@ -1,0 +1,737 @@
+<Opcodes>
+    <Opcode Opcode="0" Mnemonic="Push" StackParams="1" Varargs="true" Returns="" Description="Push Stack"/>
+
+    <!-- Variable opcodes -->
+    <Opcode Opcode="1" Mnemonic="PushLocal" StackParams="0" Varargs="false" Returns="long"
+            Description="Get script local variable, push it to the stack"/>
+    <Opcode Opcode="2" Mnemonic="PopLocal" StackParams="1" Varargs="false" Returns="void"
+            Description="Set script local variable">
+        <Parameter Id="0" Name="arg 1" Type="long" Description="value to push to the stack"/>
+    </Opcode>
+    <Opcode Opcode="3" Mnemonic="PushThis" StackParams="0" Varargs="false" Returns="long"
+            Description="Get scripted object variable"/>
+    <Opcode Opcode="4" Mnemonic="PopThis" StackParams="1" Varargs="false" Returns="void"
+            Description="Set scripted object variable">
+        <Parameter Id="0" Name="arg 1" Type="long" Description="value to push to the stack"/>
+    </Opcode>
+    <Opcode Opcode="5" Mnemonic="PushGlobal" StackParams="0" Varargs="false" Returns="long" Description=""/>
+    <Opcode Opcode="6" Mnemonic="PopGlobal" StackParams="1" Varargs="false" Returns="void" Description="">
+        <Parameter Id="0" Name="arg 1" Type="long" Description="argument 1"/>
+    </Opcode>
+    <Opcode Opcode="7" Mnemonic="PushGob" StackParams="1" Varargs="false" Returns="long" Description="">
+        <Parameter Id="0" Name="gid" Type="GobID" Description="GOB"/>
+    </Opcode>
+    <Opcode Opcode="8" Mnemonic="PopGob" StackParams="2" Varargs="false" Returns="void" Description="">
+        <Parameter Id="0" Name="gid" Type="GobID" Description="GOB"/>
+        <Parameter Id="1" Name="value" Type="long" Description="value to set"/>
+    </Opcode>
+
+    <!-- Variable + Index opcodes -->
+    <Opcode Opcode="128" Mnemonic="PushLocal[]" StackParams="1" Varargs="false" Returns="long" Description="&lt;">
+        <Parameter Id="0" Name="index" Type="long" Description="Index"/>
+    </Opcode>
+    <Opcode Opcode="129" Mnemonic="PopLocal[]" StackParams="2" Varargs="false" Returns="void" Description="&gt;">
+        <Parameter Id="0" Name="index" Type="long" Description="Index"/>
+        <Parameter Id="1" Name="value" Type="long" Description="value to set"/>
+    </Opcode>
+    <Opcode Opcode="130" Mnemonic="PushThis[]" StackParams="1" Varargs="false" Returns="long" Description="&lt;.">
+        <Parameter Id="0" Name="index" Type="long" Description="Index"/>
+    </Opcode>
+    <Opcode Opcode="131" Mnemonic="PopThis[]" StackParams="2" Varargs="false" Returns="void" Description="&gt;.">
+        <Parameter Id="0" Name="index" Type="long" Description="Index"/>
+        <Parameter Id="1" Name="value" Type="long" Description="value to set"/>
+    </Opcode>
+    <Opcode Opcode="132" Mnemonic="PushGlobal[]" StackParams="1" Varargs="false" Returns="long" Description="&lt;::">
+        <Parameter Id="0" Name="index" Type="long" Description="Index"/>
+    </Opcode>
+    <Opcode Opcode="133" Mnemonic="PopGlobal[]" StackParams="2" Varargs="false" Returns="void" Description="&gt;::">
+        <Parameter Id="0" Name="index" Type="long" Description="Index"/>
+        <Parameter Id="1" Name="value" Type="long" Description="value to set"/>
+    </Opcode>
+    <Opcode Opcode="134" Mnemonic="PushGob[]" StackParams="2" Varargs="false" Returns="long" Description="&lt;~">
+        <Parameter Id="0" Name="index" Type="long" Description="Index"/>
+        <Parameter Id="1" Name="gid" Type="GobID" Description="GOB ID"/>
+    </Opcode>
+    <Opcode Opcode="135" Mnemonic="PopGob[]" StackParams="3" Varargs="false" Returns="void" Description="&gt;~">
+        <Parameter Id="0" Name="index" Type="long" Description="Index"/>
+        <Parameter Id="1" Name="gid" Type="GobID" Description="GOB ID"/>
+        <Parameter Id="2" Name="value" Type="long" Description="value to set"/>
+    </Opcode>
+
+
+    <!-- Math / control flow / string opcodes -->
+    <Opcode Opcode="256" Mnemonic="Add" StackParams="2" Varargs="false" Returns="long" Description="Add">
+        <Parameter Id="0" Name="arg 1" Type="long" Description="argument 1"/>
+        <Parameter Id="1" Name="arg 2" Type="long" Description="argument 2"/>
+    </Opcode>
+    <Opcode Opcode="257" Mnemonic="Sub" StackParams="2" Varargs="false" Returns="long" Description="Subtract">
+        <Parameter Id="0" Name="arg 1" Type="long" Description="argument 1"/>
+        <Parameter Id="1" Name="arg 2" Type="long" Description="argument 2"/>
+    </Opcode>
+    <Opcode Opcode="258" Mnemonic="Mul" StackParams="2" Varargs="false" Returns="long" Description="Multiply">
+        <Parameter Id="0" Name="arg 1" Type="long" Description="argument 1"/>
+        <Parameter Id="1" Name="arg 2" Type="long" Description="argument 2"/>
+    </Opcode>
+    <Opcode Opcode="259" Mnemonic="Div" StackParams="2" Varargs="false" Returns="long" Description="Divide">
+        <Parameter Id="0" Name="arg 1" Type="long" Description="argument 1"/>
+        <Parameter Id="1" Name="arg 2" Type="long" Description="argument 2"/>
+    </Opcode>
+    <Opcode Opcode="260" Mnemonic="Mod" StackParams="2" Varargs="false" Returns="long" Description="Modulus">
+        <Parameter Id="0" Name="arg 1" Type="long" Description="argument 1"/>
+        <Parameter Id="1" Name="arg 2" Type="long" Description="argument 2"/>
+    </Opcode>
+    <Opcode Opcode="261" Mnemonic="Neg" StackParams="1" Varargs="false" Returns="long" Description="Negate">
+        <Parameter Id="0" Name="x" Type="long" Description="Value"/>
+    </Opcode>
+    <Opcode Opcode="262" Mnemonic="Inc" StackParams="1" Varargs="false" Returns="long" Description="Increment">
+        <Parameter Id="0" Name="x" Type="long" Description="Value"/>
+    </Opcode>
+    <Opcode Opcode="263" Mnemonic="Dec" StackParams="1" Varargs="false" Returns="long" Description="Decrement">
+        <Parameter Id="0" Name="x" Type="long" Description="Value"/>
+    </Opcode>
+    <Opcode Opcode="264" Mnemonic="Shr" StackParams="2" Varargs="false" Returns="long" Description="Shift Right">
+        <Parameter Id="0" Name="shiftby" Type="long" Description="Bits to shift by"/>
+        <Parameter Id="1" Name="x" Type="long" Description="Value"/>
+    </Opcode>
+    <Opcode Opcode="265" Mnemonic="Shl" StackParams="2" Varargs="false" Returns="long" Description="Shift Right">
+        <Parameter Id="0" Name="shiftby" Type="long" Description="Bits to shift by"/>
+        <Parameter Id="1" Name="x" Type="long" Description="Value"/>
+    </Opcode>
+    <Opcode Opcode="266" Mnemonic="BOr" StackParams="2" Varargs="false" Returns="long" Description="Binary OR">
+        <Parameter Id="0" Name="a" Type="long" Description="Value"/>
+        <Parameter Id="1" Name="b" Type="long" Description="Value"/>
+    </Opcode>
+    <Opcode Opcode="267" Mnemonic="BAnd" StackParams="2" Varargs="false" Returns="long" Description="Binary AND">
+        <Parameter Id="0" Name="a" Type="long" Description="Value"/>
+        <Parameter Id="1" Name="b" Type="long" Description="Value"/>
+    </Opcode>
+    <Opcode Opcode="268" Mnemonic="BXor" StackParams="2" Varargs="false" Returns="long" Description="Binary XOR">
+        <Parameter Id="0" Name="a" Type="long" Description="Value"/>
+        <Parameter Id="1" Name="b" Type="long" Description="Value"/>
+    </Opcode>
+    <Opcode Opcode="269" Mnemonic="BNot" StackParams="1" Varargs="false" Returns="long" Description="Binary NOT">
+        <Parameter Id="0" Name="a" Type="long" Description="Value"/>
+    </Opcode>
+    <Opcode Opcode="270" Mnemonic="LXor" StackParams="2" Varargs="false" Returns="bool" Description="Logical XOR">
+        <Parameter Id="0" Name="a" Type="long" Description="Value"/>
+        <Parameter Id="1" Name="b" Type="long" Description="Value"/>
+    </Opcode>
+    <Opcode Opcode="271" Mnemonic="LNot" StackParams="1" Varargs="false" Returns="bool" Description="Logical NOT">
+        <Parameter Id="0" Name="a" Type="long" Description="Value"/>
+    </Opcode>
+    <Opcode Opcode="272" Mnemonic="Eq" StackParams="2" Varargs="false" Returns="bool" Description="Equal">
+        <Parameter Id="0" Name="a" Type="long" Description="Value"/>
+        <Parameter Id="1" Name="b" Type="long" Description="Value"/>
+    </Opcode>
+    <Opcode Opcode="273" Mnemonic="Ne" StackParams="2" Varargs="false" Returns="bool" Description="Not Equal">
+        <Parameter Id="0" Name="a" Type="long" Description="Value"/>
+        <Parameter Id="1" Name="b" Type="long" Description="Value"/>
+    </Opcode>
+    <Opcode Opcode="274" Mnemonic="Gt" StackParams="2" Varargs="false" Returns="bool" Description="Greater Than">
+        <Parameter Id="0" Name="a" Type="long" Description="Value"/>
+        <Parameter Id="1" Name="b" Type="long" Description="Value"/>
+    </Opcode>
+    <Opcode Opcode="275" Mnemonic="Lt" StackParams="2" Varargs="false" Returns="bool" Description="Less Than">
+        <Parameter Id="0" Name="a" Type="long" Description="Value"/>
+        <Parameter Id="1" Name="b" Type="long" Description="Value"/>
+    </Opcode>
+    <Opcode Opcode="276" Mnemonic="Ge" StackParams="2" Varargs="false" Returns="bool"
+            Description="Greater Than or Equal To">
+        <Parameter Id="0" Name="a" Type="long" Description="Value"/>
+        <Parameter Id="1" Name="b" Type="long" Description="Value"/>
+    </Opcode>
+    <Opcode Opcode="277" Mnemonic="Le" StackParams="2" Varargs="false" Returns="bool"
+            Description="Less Than or Equal To">
+        <Parameter Id="0" Name="a" Type="long" Description="Value"/>
+        <Parameter Id="1" Name="b" Type="long" Description="Value"/>
+    </Opcode>
+    <Opcode Opcode="278" Mnemonic="Abs" StackParams="1" Varargs="false" Returns="long" Description="Absolute">
+        <Parameter Id="0" Name="x" Type="long" Description="Value"/>
+    </Opcode>
+    <Opcode Opcode="279" Mnemonic="Rnd" StackParams="1" Varargs="false" Returns="long"
+            Description="Push a random value to the stack">
+        <Parameter Id="0" Name="lwMax?" Type="long" Description="Maximum value?"/>
+    </Opcode>
+    <Opcode Opcode="280" Mnemonic="MulDiv" StackParams="3" Varargs="false" Returns="long"
+            Description="Floating point multiply and divide. Result is rounded">
+        <Parameter Id="0" Name="lwValue" Type="long" Description="Value to muldiv"/>
+        <Parameter Id="1" Name="long" Type="Value to divide by" Description="lwMultiplier"/>
+        <Parameter Id="2" Name="long" Type="Value to multiply by" Description="argument 3"/>
+    </Opcode>
+    <Opcode Opcode="281" Mnemonic="Dup" StackParams="1" Varargs="false" Returns="long*2"
+            Description="Duplicate value on stack">
+        <Parameter Id="0" Name="a" Type="long" Description="Value"/>
+    </Opcode>
+    <Opcode Opcode="282" Mnemonic="Pop" StackParams="0" Varargs="false" Returns="none" Description="Pop Stack">
+    </Opcode>
+    <Opcode Opcode="283" Mnemonic="Swap" StackParams="2" Varargs="false" Returns="long*2"
+            Description="Swap two values on the stack">
+        <Parameter Id="0" Name="b" Type="long" Description="Value"/>
+        <Parameter Id="1" Name="a" Type="long" Description="Value"/>
+    </Opcode>
+
+    <Opcode Opcode="284" Mnemonic="Rot" StackParams="2" Varargs="false" Returns="long" Description="Rotate?"/>
+
+    <Opcode Opcode="285" Mnemonic="Rev" StackParams="0" Varargs="false" Returns="long" Description="Reverse?"/>
+    <Opcode Opcode="286" Mnemonic="DupList" StackParams="0" Varargs="false" Returns="long"
+            Description="Duplicate List"/>
+    <Opcode Opcode="287" Mnemonic="PopList" StackParams="0" Varargs="false" Returns="long" Description="Pop List"/>
+    <Opcode Opcode="288" Mnemonic="RndList" StackParams="0" Varargs="true" Returns="long" Description="Random List"/>
+    <Opcode Opcode="289" Mnemonic="Select" StackParams="1" Varargs="true" Returns="any"
+            Description="Returns a specified item from the argument list.">
+        <Parameter Id="0" Name="lwIndex" Type="long" Description="Index into list"/>
+    </Opcode>
+    <Opcode Opcode="290" Mnemonic="GoEq" StackParams="0" Varargs="false" Returns="long" Description="Go if Equal."/>
+    <Opcode Opcode="291" Mnemonic="GoNe" StackParams="0" Varargs="false" Returns="long" Description="Go if Not Equal"/>
+    <Opcode Opcode="292" Mnemonic="GoGt" StackParams="0" Varargs="false" Returns="long"
+            Description="Go if Greater Than"/>
+    <Opcode Opcode="293" Mnemonic="GoLt" StackParams="0" Varargs="false" Returns="long" Description="Go if Less Than"/>
+    <Opcode Opcode="294" Mnemonic="GoGe" StackParams="0" Varargs="false" Returns="long"
+            Description="Go if Greater Than or Equal To"/>
+    <Opcode Opcode="295" Mnemonic="GoLe" StackParams="0" Varargs="false" Returns="long"
+            Description="Go if Less Than or Equal To"/>
+    <Opcode Opcode="296" Mnemonic="GoZ" StackParams="2" Varargs="false" Returns="long" Description="Go if Zero">
+        <Parameter Id="0" Name="lwValue" Type="long" Description="Value to check"/>
+        <Parameter Id="1" Name="target" Type="address" Description="Address to jump to if value is zero"/>
+    </Opcode>
+    <Opcode Opcode="297" Mnemonic="GoNz" StackParams="2" Varargs="false" Returns="long"
+            Description="Go if Not Zero: also IfGoto">
+        <Parameter Id="0" Name="lwValue" Type="long" Description="Value to check"/>
+        <Parameter Id="1" Name="target" Type="address" Description="Address to jump to if value is nonzero"/>
+    </Opcode>
+    <Opcode Opcode="298" Mnemonic="Go" StackParams="1" Varargs="false" Returns="long" Description="Go: also Goto">
+        <Parameter Id="0" Name="target" Type="address" Description="Address to jump to"/>
+    </Opcode>
+    <Opcode Opcode="299" Mnemonic="Exit" StackParams="0" Varargs="false" Returns="long" Description="Exit"/>
+    <Opcode Opcode="300" Mnemonic="Return" StackParams="1" Varargs="false" Returns="long"
+            Description="Ends a script and returns the specified value (if any)">
+        <Parameter Id="0" Name="lwReturn" Type="long" Description="The argument lwReturn is the value to return."/>
+    </Opcode>
+    <!-- source: patent -->
+    <Opcode Opcode="301" Mnemonic="SetReturn" StackParams="1" Varargs="false" Returns="long"
+            Description="Ends a script and returns the specified value (if any).">
+        <Parameter Id="0" Name="iwReturn" Type="long" Description="Return Value"/>
+    </Opcode>
+    <Opcode Opcode="302" Mnemonic="Shuffle" StackParams="1" Varargs="false" Returns="long" Description="">
+        <Parameter Id="0" Name="arg 1" Type="long" Description="argument 1"/>
+    </Opcode>
+    <Opcode Opcode="303" Mnemonic="ShuffleList" StackParams="0" Varargs="true" Returns="long" Description=""/>
+    <Opcode Opcode="304" Mnemonic="NextCard" StackParams="0" Varargs="false" Returns="long" Description=""/>
+    <!-- source: patent -->
+    <Opcode Opcode="305" Mnemonic="Match" StackParams="2" Varargs="false" Returns="any"
+            Description="Compares a key value to a list of argument pairs and returns the value of a match or a default value if no match is found.">
+        <Parameter Id="0" Name="lwKey" Type="long" Description="argument 1"/>
+        <Parameter Id="1" Name="Default" Type="long" Description="argument 2"/>
+        <!-- lwCompare1, Return1, lwCompare2, Return2... -->
+    </Opcode>
+    <!-- source: patent -->
+    <Opcode Opcode="306" Mnemonic="Pause" StackParams="0" Varargs="false" Returns="long"
+            Description="Pauses a script or animation.">
+        <Remarks>
+            There is no way to restart a script once paused, so Pause is useful only in animations.
+        </Remarks>
+
+    </Opcode>
+    <Opcode Opcode="307" Mnemonic="CopyStr" StackParams="2" Varargs="false" Returns="long" Description="">
+        <Parameter Id="0" Name="arg 1" Type="long" Description="argument 1"/>
+        <Parameter Id="1" Name="arg 2" Type="long" Description="argument 2"/>
+    </Opcode>
+    <Opcode Opcode="308" Mnemonic="MoveStr" StackParams="2" Varargs="false" Returns="long" Description="">
+        <Parameter Id="0" Name="arg 1" Type="long" Description="argument 1"/>
+        <Parameter Id="1" Name="arg 2" Type="long" Description="argument 2"/>
+    </Opcode>
+    <Opcode Opcode="309" Mnemonic="NukeStr" StackParams="1" Varargs="false" Returns="long" Description="">
+        <Parameter Id="0" Name="arg 1" Type="long" Description="argument 1"/>
+    </Opcode>
+    <Opcode Opcode="310" Mnemonic="MergeStrs" StackParams="2" Varargs="false" Returns="long" Description="">
+        <Parameter Id="0" Name="arg 1" Type="long" Description="argument 1"/>
+        <Parameter Id="1" Name="arg 2" Type="long" Description="argument 2"/>
+    </Opcode>
+    <Opcode Opcode="311" Mnemonic="ScaleTime" StackParams="1" Varargs="false" Returns="long" Description="">
+        <Parameter Id="0" Name="arg 1" Type="long" Description="argument 1"/>
+    </Opcode>
+    <Opcode Opcode="312" Mnemonic="NumToStr" StackParams="2" Varargs="false" Returns="long" Description="">
+        <Parameter Id="0" Name="arg 1" Type="long" Description="argument 1"/>
+        <Parameter Id="1" Name="arg 2" Type="long" Description="argument 2"/>
+    </Opcode>
+    <Opcode Opcode="313" Mnemonic="StrToNum" StackParams="3" Varargs="false" Returns="long" Description="">
+        <Parameter Id="0" Name="arg 1" Type="long" Description="argument 1"/>
+        <Parameter Id="1" Name="arg 2" Type="long" Description="argument 2"/>
+        <Parameter Id="2" Name="arg 3" Type="long" Description="argument 3"/>
+    </Opcode>
+    <Opcode Opcode="314" Mnemonic="ConcatStrs" StackParams="3" Varargs="false" Returns="long" Description="">
+        <Parameter Id="0" Name="arg 1" Type="long" Description="argument 1"/>
+        <Parameter Id="1" Name="arg 2" Type="long" Description="argument 2"/>
+        <Parameter Id="2" Name="arg 3" Type="long" Description="argument 3"/>
+    </Opcode>
+    <Opcode Opcode="315" Mnemonic="LenStr" StackParams="1" Varargs="false" Returns="long" Description="">
+        <Parameter Id="0" Name="arg 1" Type="long" Description="argument 1"/>
+    </Opcode>
+    <Opcode Opcode="316" Mnemonic="CopySubStr" StackParams="4" Varargs="false" Returns="long" Description="">
+        <Parameter Id="0" Name="arg 1" Type="long" Description="argument 1"/>
+        <Parameter Id="1" Name="arg 2" Type="long" Description="argument 2"/>
+        <Parameter Id="2" Name="arg 3" Type="long" Description="argument 3"/>
+        <Parameter Id="3" Name="arg 4" Type="long" Description="argument 4"/>
+    </Opcode>
+    <Opcode Opcode="317" Mnemonic="Debugger" StackParams="0" Varargs="false" Returns="long"
+            Description="Start the script debugger"/>
+
+
+    <!-- Game engine opcodes -->
+    <Opcode Opcode="4096" Mnemonic="CreateChildGob" StackParams="3" Varargs="false" Returns="long" Description="">
+        <Parameter Id="0" Name="gid" Type="GobID" Description="GOB to create child from"/>
+        <Parameter Id="1" Name="arg 2" Type="long" Description="argument 2"/>
+        <Parameter Id="2" Name="arg 3" Type="long" Description="argument 3"/>
+    </Opcode>
+    <Opcode Opcode="4097" Mnemonic="CreateChildThis" StackParams="2" Varargs="false" Returns="long" Description="">
+        <Parameter Id="0" Name="arg 1" Type="long" Description="argument 1"/>
+        <Parameter Id="1" Name="arg 2" Type="long" Description="argument 2"/>
+    </Opcode>
+    <Opcode Opcode="4098" Mnemonic="DestroyGob" StackParams="1" Varargs="false" Returns="long"
+            Description="Destroy a GOB">
+        <Parameter Id="0" Name="gid" Type="GobID" Description="GOB to destroy"/>
+    </Opcode>
+    <Opcode Opcode="4099" Mnemonic="DestroyThis" StackParams="0" Varargs="false" Returns="long"
+            Description="Destroy this GOB"/>
+    <Opcode Opcode="4100" Mnemonic="ResizeGob" StackParams="3" Varargs="false" Returns="long" Description="">
+        <Parameter Id="0" Name="arg 1" Type="long" Description="argument 1"/>
+        <Parameter Id="1" Name="arg 2" Type="long" Description="argument 2"/>
+        <Parameter Id="2" Name="arg 3" Type="long" Description="argument 3"/>
+    </Opcode>
+    <Opcode Opcode="4101" Mnemonic="ResizeThis" StackParams="2" Varargs="false" Returns="long" Description="">
+        <Parameter Id="0" Name="arg 1" Type="long" Description="argument 1"/>
+        <Parameter Id="1" Name="arg 2" Type="long" Description="argument 2"/>
+    </Opcode>
+    <Opcode Opcode="4102" Mnemonic="MoveRelGob" StackParams="3" Varargs="false" Returns="long" Description="">
+        <Parameter Id="0" Name="arg 1" Type="long" Description="argument 1"/>
+        <Parameter Id="1" Name="arg 2" Type="long" Description="argument 2"/>
+        <Parameter Id="2" Name="arg 3" Type="long" Description="argument 3"/>
+    </Opcode>
+    <Opcode Opcode="4103" Mnemonic="MovRelThis" StackParams="2" Varargs="false" Returns="long" Description="">
+        <Parameter Id="0" Name="arg 1" Type="long" Description="argument 1"/>
+        <Parameter Id="1" Name="arg 2" Type="long" Description="argument 2"/>
+    </Opcode>
+    <Opcode Opcode="4104" Mnemonic="MoveAbsGob" StackParams="3" Varargs="false" Returns="long" Description="">
+        <Parameter Id="0" Name="arg 1" Type="long" Description="argument 1"/>
+        <Parameter Id="1" Name="arg 2" Type="long" Description="argument 2"/>
+        <Parameter Id="2" Name="arg 3" Type="long" Description="argument 3"/>
+    </Opcode>
+    <Opcode Opcode="4105" Mnemonic="MoveAbsThis" StackParams="2" Varargs="false" Returns="long" Description="">
+        <Parameter Id="0" Name="arg 1" Type="long" Description="argument 1"/>
+        <Parameter Id="1" Name="arg 2" Type="long" Description="argument 2"/>
+    </Opcode>
+    <Opcode Opcode="4106" Mnemonic="GidThis" StackParams="0" Varargs="false" Returns="GobID"
+            Description="Returns the GOB ID of this GOB"/>
+    <Opcode Opcode="4107" Mnemonic="GidParGob" StackParams="1" Varargs="false" Returns="GobID"
+            Description="Returns the GOB ID of a GOB's parent">
+        <Parameter Id="0" Name="arg 1" Type="long" Description="argument 1"/>
+    </Opcode>
+    <Opcode Opcode="4108" Mnemonic="GidParThis" StackParams="0" Varargs="false" Returns="GobID"
+            Description="Returns the GOB ID of this GOB's parent"/>
+    <Opcode Opcode="4109" Mnemonic="GidNextSib" StackParams="1" Varargs="false" Returns="long" Description="">
+        <Parameter Id="0" Name="arg 1" Type="long" Description="argument 1"/>
+    </Opcode>
+    <Opcode Opcode="4110" Mnemonic="GidPrevSib" StackParams="1" Varargs="false" Returns="long" Description="">
+        <Parameter Id="0" Name="arg 1" Type="long" Description="argument 1"/>
+    </Opcode>
+    <Opcode Opcode="4111" Mnemonic="GidChild" StackParams="1" Varargs="false" Returns="GobID"
+            Description="Returns the GOB ID of this GOB's child">
+        <Parameter Id="0" Name="arg 1" Type="long" Description="argument 1"/>
+    </Opcode>
+    <Opcode Opcode="4112" Mnemonic="FGobExists" StackParams="1" Varargs="false" Returns="bool"
+            Description="Returns True if the specified GOB exists">
+        <Parameter Id="0" Name="gid" Type="GobID" Description="GOB to find"/>
+    </Opcode>
+    <Opcode Opcode="4113" Mnemonic="CreateClock" StackParams="1" Varargs="false" Returns="1" Description="">
+        <Parameter Id="0" Name="arg 1" Type="long" Description="argument 1"/>
+    </Opcode>
+    <Opcode Opcode="4114" Mnemonic="DestroyClock" StackParams="1" Varargs="false" Returns="long" Description="">
+        <Parameter Id="0" Name="arg 1" Type="long" Description="argument 1"/>
+    </Opcode>
+    <Opcode Opcode="4115" Mnemonic="StartClock" StackParams="2" Varargs="false" Returns="long" Description="">
+        <Parameter Id="0" Name="arg 1" Type="long" Description="argument 1"/>
+        <Parameter Id="1" Name="arg 2" Type="long" Description="argument 2"/>
+    </Opcode>
+    <Opcode Opcode="4116" Mnemonic="StopClock" StackParams="1" Varargs="false" Returns="long" Description="">
+        <Parameter Id="0" Name="arg 1" Type="long" Description="argument 1"/>
+    </Opcode>
+    <Opcode Opcode="4117" Mnemonic="TimeCur" StackParams="1" Varargs="false" Returns="long" Description="">
+        <Parameter Id="0" Name="arg 1" Type="long" Description="argument 1"/>
+    </Opcode>
+    <Opcode Opcode="4118" Mnemonic="SetAlarm" StackParams="2" Varargs="false" Returns="long" Description="">
+        <Parameter Id="0" Name="arg 1" Type="long" Description="argument 1"/>
+        <Parameter Id="1" Name="arg 2" Type="long" Description="argument 2"/>
+    </Opcode>
+    <Opcode Opcode="4119" Mnemonic="EnqueueCid" StackParams="6" Varargs="false" Returns="long"
+            Description="Send a message to a GOB">
+        <Parameter Id="0" Name="mid" Type="MessageID" Description="Message"/>
+        <Parameter Id="1" Name="gid" Type="GobID" Description="GOB to receive message"/>
+        <Parameter Id="2" Name="Param0" Type="any" Description="First argument"/>
+        <Parameter Id="3" Name="Param1" Type="any" Description="Second argument"/>
+        <Parameter Id="4" Name="Param2" Type="long" Description="Third argument"/>
+        <Parameter Id="5" Name="Param3" Type="long" Description="Fourth argument"/>
+    </Opcode>
+    <Opcode Opcode="4120" Mnemonic="Alert" StackParams="0" Varargs="true" Returns="long"
+            Description="Shows a message box containing integer values. Blocks execution until the message box is closed by the user."/>
+    <!-- source: patent -->
+    <Opcode Opcode="4121" Mnemonic="RunScriptGob" StackParams="3" Varargs="true" Returns="any"
+            Description="Runs a script contained in a GOB">
+        <Parameter Id="0" Name="lwArgCount" Type="long" Description="Number of arguments used by the script."/>
+        <Parameter Id="1" Name="gidParent" Type="GobID" Description="ID of the script's GOB"/>
+        <Parameter Id="2" Name="chidScript" Type="long" Description="Child ID of the script to run"/>
+        <!-- arguments -->
+    </Opcode>
+    <Opcode Opcode="4122" Mnemonic="RunScriptThis" StackParams="1" Varargs="true" Returns="any"
+            Description="Runs a script contained in this GOB">
+        <Parameter Id="0" Name="lwArgCount" Type="long" Description="Number of arguments used by the script."/>
+    </Opcode>
+    <Opcode Opcode="4123" Mnemonic="StateGob" StackParams="1" Varargs="false" Returns="long" Description="">
+        <Parameter Id="0" Name="arg 1" Type="long" Description="argument 1"/>
+    </Opcode>
+    <Opcode Opcode="4124" Mnemonic="StateThis" StackParams="0" Varargs="false" Returns="long"
+            Description="Returns the state of this GOB"/>
+    <Opcode Opcode="4125" Mnemonic="ChangeStateGob" StackParams="2" Varargs="false" Returns="long" Description="">
+        <Parameter Id="0" Name="gid" Type="GobID" Description="GOB to change state of"/>
+        <Parameter Id="1" Name="arg 2" Type="long" Description="argument 2"/>
+    </Opcode>
+    <Opcode Opcode="4126" Mnemonic="ChangeStateThis" StackParams="1" Varargs="false" Returns="long" Description="">
+        <Parameter Id="0" Name="arg 1" Type="long" Description="argument 1"/>
+    </Opcode>
+    <Opcode Opcode="4127" Mnemonic="AnimateGob" StackParams="2" Varargs="false" Returns="long" Description="">
+        <Parameter Id="0" Name="gid" Type="GobID" Description="GOB to animate"/>
+        <Parameter Id="1" Name="arg 2" Type="long" Description="argument 2"/>
+    </Opcode>
+
+    <Opcode Opcode="4128" Mnemonic="AnimateThis" StackParams="1" Varargs="false" Returns="long" Description="">
+        <Parameter Id="0" Name="arg 1" Type="long" Description="argument 1"/>
+    </Opcode>
+    <Opcode Opcode="4129" Mnemonic="SetPictureGob" StackParams="2" Varargs="false" Returns="long" Description="">
+        <Parameter Id="0" Name="arg 1" Type="long" Description="argument 1"/>
+        <Parameter Id="1" Name="arg 2" Type="long" Description="argument 2"/>
+    </Opcode>
+    <Opcode Opcode="4130" Mnemonic="SetPictureThis" StackParams="1" Varargs="false" Returns="long" Description="">
+        <Parameter Id="0" Name="arg 1" Type="long" Description="argument 1"/>
+    </Opcode>
+    <Opcode Opcode="4131" Mnemonic="SetRepGob" StackParams="2" Varargs="false" Returns="long" Description="">
+        <Parameter Id="0" Name="arg 1" Type="long" Description="argument 1"/>
+        <Parameter Id="1" Name="arg 2" Type="long" Description="argument 2"/>
+    </Opcode>
+    <Opcode Opcode="4132" Mnemonic="SetRepThis" StackParams="1" Varargs="false" Returns="long" Description="">
+        <Parameter Id="0" Name="arg 1" Type="long" Description="argument 1"/>
+    </Opcode>
+    <Opcode Opcode="4135" Mnemonic="RunScriptCnoGob" StackParams="2" Varargs="true" Returns="long" Description="">
+        <Parameter Id="0" Name="arg 1" Type="long" Description="argument 1"/>
+        <Parameter Id="1" Name="arg 2" Type="long" Description="argument 2"/>
+    </Opcode>
+    <Opcode Opcode="4136" Mnemonic="RunScriptCnoThis" StackParams="1" Varargs="true" Returns="long" Description="">
+        <Parameter Id="0" Name="arg 1" Type="long" Description="argument 1"/>
+    </Opcode>
+    <!-- source: patent -->
+    <Opcode Opcode="4137" Mnemonic="XMouseGob" StackParams="1" Varargs="false" Returns="1"
+            Description="Returns the mouse's x-coordinate within a GOB in pixels.">
+        <Parameter Id="0" Name="gid" Type="GobID"
+                   Description="The gid argument is the GOB ID of the GOB for which to return the X mouse coordinate."/>
+        <Remarks>
+            The x coordinate of the mouse is the horizontal distance between
+            the referenced point of the GOB and the reference point of the
+            mouse pointer. The default reference point of the top-level GOB
+            is the upper-left corner of the window associated with the
+            application program.
+        </Remarks>
+    </Opcode>
+    <Opcode Opcode="4138" Mnemonic="XMouseThis" StackParams="0" Varargs="false" Returns="1"
+            Description="Returns the mouse's x-coordinate within this GOB in pixels."/>
+    <Opcode Opcode="4139" Mnemonic="YMouseGob" StackParams="1" Varargs="false" Returns="1"
+            Description="Returns the mouse's y-coordinate within a GOB in pixels.">
+        <Parameter Id="0" Name="gid" Type="GobID" Description="GOB to get mouse coordinates relative to"/>
+    </Opcode>
+    <Opcode Opcode="4140" Mnemonic="YMouseThis" StackParams="0" Varargs="false" Returns="1"
+            Description="Returns the mouse's y-coordinate within this GOB in pixels."/>
+    <Opcode Opcode="4141" Mnemonic="GidUnique" StackParams="0" Varargs="false" Returns="GobID"
+            Description="Returns a unique ID"/>
+    <!-- source: patent -->
+    <Opcode Opcode="4142" Mnemonic="XGob" StackParams="1" Varargs="false" Returns="long"
+            Description="Returns x-coordinate of a GOB in pixels.">
+        <Parameter Id="0" Name="gid" Type="GobID"
+                   Description="The gid argument is the GOB ID of the GOB for which to return the x coordinate."/>
+        <Remarks>
+            The x coordinate of a GOB is the horizontal distance between the
+            referenced point of the GOB and the reference point of its parent
+            GOB. The default reference point of the top-level GOB is the
+            upper-left corner of the window associated with the application
+            program.
+        </Remarks>
+    </Opcode>
+    <Opcode Opcode="4143" Mnemonic="XThis" StackParams="0" Varargs="false" Returns="long"
+            Description="Returns x-coordinate of this GOB in pixels."/>
+    <Opcode Opcode="4144" Mnemonic="YGob" StackParams="1" Varargs="false" Returns="long"
+            Description="Returns y-coordinate of a GOB in pixels.">
+        <Parameter Id="0" Name="gid" Type="GobID" Description="GOB to get coordinates of"/>
+    </Opcode>
+    <Opcode Opcode="4145" Mnemonic="YThis" StackParams="0" Varargs="false" Returns="long"
+            Description="Returns y-coordinate of this GOB in pixels."/>
+    <!-- source: patent -->
+    <Opcode Opcode="4146" Mnemonic="ZGob" StackParams="1" Varargs="false" Returns="long"
+            Description="Returns z order of a GOB">
+        <Parameter Id="0" Name="gid" Type="GobID"
+                   Description="The gid argument is the GOB ID of the GOB for which to return the z order."/>
+        <Remarks>
+            The z-order of GOBs on screen determines their drawing
+            precedence. Use ZGob and ZThis to determine the order of
+            display.
+        </Remarks>
+    </Opcode>
+    <Opcode Opcode="4147" Mnemonic="ZThis" StackParams="0" Varargs="false" Returns="long"
+            Description="Returns z-order of this GOB"/>
+    <Opcode Opcode="4148" Mnemonic="SetZGob" StackParams="2" Varargs="false" Returns="long"
+            Description="Sets z-order of a GOB">
+        <Parameter Id="0" Name="gid" Type="GobID" Description="GOB to set Z-order on"/>
+        <Parameter Id="1" Name="lwZ" Type="long" Description="Z-order"/>
+    </Opcode>
+    <Opcode Opcode="4149" Mnemonic="SetZThis" StackParams="1" Varargs="false" Returns="long"
+            Description="Sets z-order of this GOB">
+        <Parameter Id="0" Name="lwZ" Type="long" Description="Z-order"/>
+    </Opcode>
+    <Opcode Opcode="4150" Mnemonic="SetColorTable" StackParams="1" Varargs="false" Returns="long" Description="">
+        <Parameter Id="0" Name="arg 1" Type="long" Description="argument 1"/>
+    </Opcode>
+    <!-- source: patent -->
+    <Opcode Opcode="4151" Mnemonic="Cell" StackParams="4" Varargs="false" Returns="long"
+            Description="Displays a frame of an animation for a  specified length of time.">
+        <Parameter Id="0" Name="chid" Type="ChildID" Description="Child ID of the bitmap to display as a frame."/>
+        <Parameter Id="1" Name="lwX" Type="long" Description="Horizontal coordinate to display the frame at."/>
+        <Parameter Id="2" Name="lwY" Type="long" Description="Vertical coordinate to display the frame at."/>
+        <Parameter Id="3" Name="lwTime" Type="long"
+                   Description="Length of time to delay before the next display (1/60th second)"/>
+        <Remarks>
+            Use chid chidNil (OxFFFFFFFF) to avoid changing the GOB's
+            appearance. This script keyword is useful for moving an object on
+            screen or for polling for events.
+            The lwX and lwY coordinates are relative to the upper-left corner
+            of the container GOB and are based on the current GOB's
+            reference point. The Cell command supports an implied pause or
+            delay.
+        </Remarks>
+    </Opcode>
+    <Opcode Opcode="4152" Mnemonic="CellNoPause" StackParams="4" Varargs="false" Returns="long" Description="">
+        <Parameter Id="0" Name="arg 1" Type="long" Description="argument 1"/>
+        <Parameter Id="1" Name="arg 2" Type="long" Description="argument 2"/>
+        <Parameter Id="2" Name="arg 3" Type="long" Description="argument 3"/>
+        <Parameter Id="3" Name="arg 4" Type="long" Description="argument 4"/>
+    </Opcode>
+    <Opcode Opcode="4153" Mnemonic="GetModifierState" StackParams="0" Varargs="false" Returns="long" Description=""/>
+    <Opcode Opcode="4154" Mnemonic="ChangeModifierState" StackParams="2" Varargs="false" Returns="long" Description="">
+        <Parameter Id="0" Name="arg 1" Type="long" Description="argument 1"/>
+        <Parameter Id="1" Name="arg 2" Type="long" Description="argument 2"/>
+    </Opcode>
+    <Opcode Opcode="4155" Mnemonic="CreateHelpGob" StackParams="2" Varargs="false" Returns="long" Description="">
+        <Parameter Id="0" Name="gid" Type="GobID" Description="GOB to create help from"/>
+        <Parameter Id="1" Name="arg 2" Type="long" Description="argument 2"/>
+    </Opcode>
+    <Opcode Opcode="4156" Mnemonic="CreateHelpThis" StackParams="1" Varargs="false" Returns="long" Description="">
+        <Parameter Id="0" Name="arg 1" Type="long" Description="argument 1"/>
+    </Opcode>
+    <Opcode Opcode="4157" Mnemonic="Transition" StackParams="5" Varargs="false" Returns="long" Description="">
+        <Parameter Id="0" Name="arg 1" Type="long" Description="argument 1"/>
+        <Parameter Id="1" Name="arg 2" Type="long" Description="argument 2"/>
+        <Parameter Id="2" Name="arg 3" Type="long" Description="argument 3"/>
+        <Parameter Id="3" Name="arg 4" Type="long" Description="argument 4"/>
+        <Parameter Id="4" Name="arg 5" Type="long" Description="argument 5"/>
+    </Opcode>
+    <Opcode Opcode="4158" Mnemonic="GetEdit" StackParams="2" Varargs="false" Returns="long" Description="">
+        <Parameter Id="0" Name="arg 1" Type="long" Description="argument 1"/>
+        <Parameter Id="1" Name="arg 2" Type="long" Description="argument 2"/>
+    </Opcode>
+    <Opcode Opcode="4159" Mnemonic="SetEdit" StackParams="2" Varargs="false" Returns="long" Description="">
+        <Parameter Id="0" Name="arg 1" Type="long" Description="argument 1"/>
+        <Parameter Id="1" Name="arg 2" Type="long" Description="argument 2"/>
+    </Opcode>
+    <Opcode Opcode="4160" Mnemonic="AlertStr" StackParams="0" Varargs="true" Returns="long"
+            Description="Shows a message box containing strings. Blocks execution until the message box is closed by the user."/>
+    <Opcode Opcode="4161" Mnemonic="GetProp" StackParams="1" Varargs="false" Returns="long"
+            Description="Get a global property">
+        <Parameter Id="0" Name="propid" Type="PropID" Description="Property to get"/>
+    </Opcode>
+    <Opcode Opcode="4162" Mnemonic="SetProp" StackParams="2" Varargs="false" Returns="long"
+            Description="Set a global property">
+        <Parameter Id="0" Name="propid" Type="PropID" Description="Property to set"/>
+        <Parameter Id="1" Name="lwValue" Type="long" Description="New property value"/>
+    </Opcode>
+    <Opcode Opcode="4163" Mnemonic="Launch" StackParams="1" Varargs="false" Returns="bool"
+            Description="Executes an external process. Returns a boolean.">
+        <Parameter Id="0" Name="Command" Type="StringID"
+                   Description="String ID of command to execute. Passed to CreateProcessA()."/>
+    </Opcode>
+    <Opcode Opcode="4164" Mnemonic="PlayGob" StackParams="1" Varargs="false" Returns="long" Description="">
+        <Parameter Id="0" Name="arg 1" Type="long" Description="argument 1"/>
+    </Opcode>
+    <Opcode Opcode="4165" Mnemonic="PlayThis" StackParams="0" Varargs="false" Returns="long" Description=""/>
+    <Opcode Opcode="4166" Mnemonic="PlayingGob" StackParams="1" Varargs="false" Returns="long" Description="">
+        <Parameter Id="0" Name="arg 1" Type="long" Description="argument 1"/>
+    </Opcode>
+    <Opcode Opcode="4167" Mnemonic="PlayingThis" StackParams="0" Varargs="false" Returns="long" Description=""/>
+    <Opcode Opcode="4168" Mnemonic="StopGob" StackParams="1" Varargs="false" Returns="long" Description="">
+        <Parameter Id="0" Name="arg 1" Type="long" Description="argument 1"/>
+    </Opcode>
+    <Opcode Opcode="4169" Mnemonic="StopThis" StackParams="0" Varargs="false" Returns="long" Description=""/>
+    <Opcode Opcode="4170" Mnemonic="CurFrameGob" StackParams="1" Varargs="false" Returns="long" Description="">
+        <Parameter Id="0" Name="gid" Type="GobID" Description="GOB to get current frame from"/>
+    </Opcode>
+    <Opcode Opcode="4171" Mnemonic="CurFrameThis" StackParams="0" Varargs="false" Returns="long" Description=""/>
+    <Opcode Opcode="4172" Mnemonic="CountFramesGob" StackParams="1" Varargs="false" Returns="long" Description="">
+        <Parameter Id="0" Name="gid" Type="GobID" Description="GOB to count frames on"/>
+    </Opcode>
+    <Opcode Opcode="4173" Mnemonic="CountFramesThis" StackParams="0" Varargs="false" Returns="long" Description=""/>
+    <Opcode Opcode="4174" Mnemonic="GotoFrameGob" StackParams="2" Varargs="false" Returns="long" Description="">
+        <Parameter Id="0" Name="arg 1" Type="long" Description="argument 1"/>
+        <Parameter Id="1" Name="arg 2" Type="long" Description="argument 2"/>
+    </Opcode>
+    <Opcode Opcode="4175" Mnemonic="GotoFrameThis" StackParams="1" Varargs="false" Returns="long" Description="">
+        <Parameter Id="0" Name="arg 1" Type="long" Description="argument 1"/>
+    </Opcode>
+    <Opcode Opcode="4176" Mnemonic="FilterCmdsGob" StackParams="4" Varargs="false" Returns="long" Description="">
+        <Parameter Id="0" Name="arg 1" Type="long" Description="argument 1"/>
+        <Parameter Id="1" Name="arg 2" Type="long" Description="argument 2"/>
+        <Parameter Id="2" Name="arg 3" Type="long" Description="argument 3"/>
+        <Parameter Id="3" Name="arg 4" Type="long" Description="argument 4"/>
+    </Opcode>
+    <Opcode Opcode="4177" Mnemonic="FilterCmdsThis" StackParams="3" Varargs="false" Returns="long" Description="">
+        <Parameter Id="0" Name="arg 1" Type="long" Description="argument 1"/>
+        <Parameter Id="1" Name="arg 2" Type="long" Description="argument 2"/>
+        <Parameter Id="2" Name="arg 3" Type="long" Description="argument 3"/>
+    </Opcode>
+    <Opcode Opcode="4178" Mnemonic="DestroyChildrenGob" StackParams="1" Varargs="false" Returns="long" Description="">
+        <Parameter Id="0" Name="gid" Type="GobID" Description="GOB to destroy children"/>
+    </Opcode>
+    <Opcode Opcode="4179" Mnemonic="DestroyChildrenThis" StackParams="0" Varargs="false" Returns="long" Description=""/>
+    <Opcode Opcode="4180" Mnemonic="PlaySoundThis" StackParams="7" Varargs="false" Returns="long" Description="">
+        <Parameter Id="0" Name="chunk_tag" Type="long"
+                   Description="Type of sound to play. WAVE: 0x57415645. MIDS: 0x4d494453"/>
+        <Parameter Id="1" Name="chunk_number" Type="long" Description="Chunk number of the sound to play"/>
+        <Parameter Id="2" Name="arg3" Type="long" Description="unknown: usually 1"/>
+        <Parameter Id="3" Name="volume" Type="long" Description="Volume: 0x10000 is maximum"/>
+        <Parameter Id="4" Name="repeat" Type="long" Description="Number of times to play. Zero will loop forever."/>
+        <Parameter Id="5" Name="arg 6" Type="long" Description="argument 6"/>
+        <Parameter Id="6" Name="arg 7" Type="long" Description="argument 7"/>
+    </Opcode>
+    <Opcode Opcode="4181" Mnemonic="PlaySoundGob" StackParams="8" Varargs="false" Returns="long" Description="">
+        <Parameter Id="0" Name="arg 1" Type="long" Description="argument 1"/>
+        <Parameter Id="1" Name="arg 2" Type="long" Description="argument 2"/>
+        <Parameter Id="2" Name="arg 3" Type="long" Description="argument 3"/>
+        <Parameter Id="3" Name="arg 4" Type="long" Description="argument 4"/>
+        <Parameter Id="4" Name="arg 5" Type="long" Description="argument 5"/>
+        <Parameter Id="5" Name="arg 6" Type="long" Description="argument 6"/>
+        <Parameter Id="6" Name="arg 7" Type="long" Description="argument 7"/>
+        <Parameter Id="7" Name="arg 8" Type="long" Description="argument 8"/>
+    </Opcode>
+    <Opcode Opcode="4182" Mnemonic="StopSound" StackParams="1" Varargs="false" Returns="long" Description="">
+        <Parameter Id="0" Name="arg 1" Type="long" Description="argument 1"/>
+    </Opcode>
+    <Opcode Opcode="4183" Mnemonic="StopSoundClass" StackParams="2" Varargs="false" Returns="long" Description="">
+        <Parameter Id="0" Name="arg 1" Type="long" Description="argument 1"/>
+        <Parameter Id="1" Name="arg 2" Type="long" Description="argument 2"/>
+    </Opcode>
+    <Opcode Opcode="4184" Mnemonic="PlayingSound" StackParams="1" Varargs="false" Returns="long" Description="">
+        <Parameter Id="0" Name="arg 1" Type="long" Description="argument 1"/>
+    </Opcode>
+    <Opcode Opcode="4185" Mnemonic="PlayingSoundClass" StackParams="2" Varargs="false" Returns="long" Description="">
+        <Parameter Id="0" Name="arg 1" Type="long" Description="argument 1"/>
+        <Parameter Id="1" Name="arg 2" Type="long" Description="argument 2"/>
+    </Opcode>
+    <Opcode Opcode="4186" Mnemonic="PauseSound" StackParams="1" Varargs="false" Returns="long" Description="">
+        <Parameter Id="0" Name="arg 1" Type="long" Description="argument 1"/>
+    </Opcode>
+    <Opcode Opcode="4187" Mnemonic="PauseSoundClass" StackParams="2" Varargs="false" Returns="long" Description="">
+        <Parameter Id="0" Name="arg 1" Type="long" Description="argument 1"/>
+        <Parameter Id="1" Name="arg 2" Type="long" Description="argument 2"/>
+    </Opcode>
+    <Opcode Opcode="4188" Mnemonic="ResumeSound" StackParams="1" Varargs="false" Returns="long" Description="">
+        <Parameter Id="0" Name="arg 1" Type="long" Description="argument 1"/>
+    </Opcode>
+    <Opcode Opcode="4189" Mnemonic="ResumeSoundClass" StackParams="2" Varargs="false" Returns="long" Description="">
+        <Parameter Id="0" Name="arg 1" Type="long" Description="argument 1"/>
+        <Parameter Id="1" Name="arg 2" Type="long" Description="argument 2"/>
+    </Opcode>
+    <Opcode Opcode="4190" Mnemonic="PlayMouseSoundThis" StackParams="2" Varargs="false" Returns="long" Description="">
+        <Parameter Id="0" Name="arg 1" Type="long" Description="argument 1"/>
+        <Parameter Id="1" Name="arg 2" Type="long" Description="argument 2"/>
+    </Opcode>
+    <Opcode Opcode="4191" Mnemonic="PlayMouseSoundGob" StackParams="3" Varargs="false" Returns="long" Description="">
+        <Parameter Id="0" Name="arg 1" Type="long" Description="argument 1"/>
+        <Parameter Id="1" Name="arg 2" Type="long" Description="argument 2"/>
+        <Parameter Id="2" Name="arg 3" Type="long" Description="argument 3"/>
+    </Opcode>
+    <Opcode Opcode="4192" Mnemonic="WidthGob" StackParams="1" Varargs="false" Returns="long"
+            Description="Returns the width of a GOB in pixels.">
+        <Parameter Id="0" Name="gid" Type="GobID" Description="GOB to get width of"/>
+    </Opcode>
+    <Opcode Opcode="4193" Mnemonic="WidthThis" StackParams="0" Varargs="false" Returns="long"
+            Description="Returns the width of this GOB in pixels."/>
+    <Opcode Opcode="4194" Mnemonic="HeightGob" StackParams="1" Varargs="false" Returns="long"
+            Description="Returns the height of a GOB">
+        <Parameter Id="0" Name="gid" Type="GobID" Description="GOB to get height of"/>
+    </Opcode>
+    <Opcode Opcode="4195" Mnemonic="HeightThis" StackParams="0" Varargs="false" Returns="long"
+            Description="Returns the height of this GOB"/>
+    <Opcode Opcode="4196" Mnemonic="SetNoSlipGob" StackParams="2" Varargs="false" Returns="long" Description="">
+        <Parameter Id="0" Name="arg 1" Type="long" Description="argument 1"/>
+        <Parameter Id="1" Name="arg 2" Type="long" Description="argument 2"/>
+    </Opcode>
+    <Opcode Opcode="4197" Mnemonic="SetNoSlipThis" StackParams="1" Varargs="false" Returns="long" Description="">
+        <Parameter Id="0" Name="arg 1" Type="long" Description="argument 1"/>
+    </Opcode>
+    <Opcode Opcode="4198" Mnemonic="FIsDescendent" StackParams="2" Varargs="false" Returns="bool" Description="">
+        <Parameter Id="0" Name="arg 1" Type="long" Description="argument 1"/>
+        <Parameter Id="1" Name="arg 2" Type="long" Description="argument 2"/>
+    </Opcode>
+    <Opcode Opcode="4199" Mnemonic="Print" StackParams="0" Varargs="true" Returns="long"
+            Description="Writes integer values to the debugger. Returns immediately."/>
+    <Opcode Opcode="4200" Mnemonic="PrintStr" StackParams="0" Varargs="true" Returns="long"
+            Description="Writes strings to the debugger. Returns immediately."/>
+    <Opcode Opcode="4201" Mnemonic="SetMasterVolume" StackParams="1" Varargs="false" Returns="long"
+            Description="Set the global sound volume">
+        <Parameter Id="0" Name="lwVolume" Type="long" Description="New volume"/>
+    </Opcode>
+    <Opcode Opcode="4202" Mnemonic="GetMasterVolume" StackParams="0" Varargs="false" Returns="long"
+            Description="Get the global sound volume."/>
+    <Opcode Opcode="4203" Mnemonic="StartLongOp" StackParams="0" Varargs="false" Returns="long"
+            Description="Set the mouse cursor to the hourglass"/>
+    <Opcode Opcode="4204" Mnemonic="EndLongOp" StackParams="1" Varargs="false" Returns="long"
+            Description="Returns the mouse cursor to the arrow.">
+        <Parameter Id="0" Name="arg 1" Type="long" Description="argument 1"/>
+    </Opcode>
+    <Opcode Opcode="4205" Mnemonic="SetToolTipSourceGob" StackParams="2" Varargs="false" Returns="long" Description="">
+        <Parameter Id="0" Name="arg 1" Type="long" Description="argument 1"/>
+        <Parameter Id="1" Name="arg 2" Type="long" Description="argument 2"/>
+    </Opcode>
+    <Opcode Opcode="4206" Mnemonic="SetToolTipSourceThis" StackParams="1" Varargs="false" Returns="long" Description="">
+        <Parameter Id="0" Name="arg 1" Type="long" Description="argument 1"/>
+    </Opcode>
+    <Opcode Opcode="4207" Mnemonic="SetAlarmGob" StackParams="4" Varargs="false" Returns="long" Description="">
+        <Parameter Id="0" Name="arg 1" Type="long" Description="argument 1"/>
+        <Parameter Id="1" Name="arg 2" Type="long" Description="argument 2"/>
+        <Parameter Id="2" Name="arg 3" Type="long" Description="argument 3"/>
+        <Parameter Id="3" Name="arg 4" Type="long" Description="argument 4"/>
+    </Opcode>
+    <Opcode Opcode="4208" Mnemonic="SetAlarmThis" StackParams="3" Varargs="false" Returns="long" Description="">
+        <Parameter Id="0" Name="arg 1" Type="long" Description="argument 1"/>
+        <Parameter Id="1" Name="arg 2" Type="long" Description="argument 2"/>
+        <Parameter Id="2" Name="arg 3" Type="long" Description="argument 3"/>
+    </Opcode>
+    <Opcode Opcode="4209" Mnemonic="ModalHelp" StackParams="2" Varargs="false" Returns="long" Description="">
+        <Parameter Id="0" Name="arg 1" Type="long" Description="argument 1"/>
+        <Parameter Id="1" Name="arg 2" Type="long" Description="argument 2"/>
+    </Opcode>
+    <Opcode Opcode="4210" Mnemonic="FlushUserEvents" StackParams="1" Varargs="false" Returns="long" Description="">
+        <Parameter Id="0" Name="arg 1" Type="long" Description="argument 1"/>
+    </Opcode>
+    <Opcode Opcode="4211" Mnemonic="StreamGob" StackParams="2" Varargs="false" Returns="long" Description="">
+        <Parameter Id="0" Name="arg 1" Type="long" Description="argument 1"/>
+        <Parameter Id="1" Name="arg 2" Type="long" Description="argument 2"/>
+    </Opcode>
+    <Opcode Opcode="4212" Mnemonic="StreamThis" StackParams="1" Varargs="false" Returns="long" Description="">
+        <Parameter Id="0" Name="arg 1" Type="long" Description="argument 1"/>
+    </Opcode>
+    <Opcode Opcode="4213" Mnemonic="PrintStat" StackParams="0" Varargs="true" Returns="long" Description=""/>
+    <Opcode Opcode="4214" Mnemonic="PrintStrStat" StackParams="0" Varargs="true" Returns="long" Description=""/>
+</Opcodes>

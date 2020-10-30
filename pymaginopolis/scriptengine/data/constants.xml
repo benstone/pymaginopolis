@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<KnownConstants>
+    <!-- From reverse engineering -->
+    <Constant name="Studio" value="20005"/>
+    <Constant name="Studio_NewMovie" value="100"/>
+    <Constant name="Studio_ShowOpenMovieDlg" value="101"/>
+    <Constant name="Studio_Save" value="103"/>
+    <Constant name="Studio_SaveAs" value="105"/>
+    <Constant name="Studio_Undo" value="133"/>
+    <Constant name="Studio_Redo" value="134"/>
+    <Constant name="Studio_OpenHelpMachine" value="40040"/>
+    <Constant name="Studio_UpAndDown" value="40041"/>
+    <Constant name="Studio_GoToFrame" value="44013"/>
+    <Constant name="Studio_PlayMovie" value="50005"/>
+    <Constant name="Studio_Choose" value="50018"/>
+    <Constant name="Studio_PrevFrame" value="50023"/>
+    <Constant name="Studio_NextFrame" value="50024"/>
+    <Constant name="Studio_Open3DWords" value="50029"/>
+    <Constant name="Studio_OpenFontPicker" value="50055"/>
+    <Constant name="Studio_ChooseTBColor" value="50062"/>
+    <Constant name="Studio_ChooseTBFontBGColor" value="50063"/>
+    <Constant name="Studio_ChooseTBFont" value="50078"/>
+    <Constant name="Studio_ChooseTBFontSize" value="50079"/>
+    <Constant name="Studio_ProjectGadgetNewMovie" value="50090"/>
+    <Constant name="Studio_ChooseTextBoxFontSize" value="50097"/>
+    <Constant name="Studio_OpenChooserDialog" value="50099"/>
+    <Constant name="Studio_OpenCloseSounds" value="50103"/>
+    <Constant name="Studio_CreateTextBox" value="50104"/>
+    <Constant name="Studio_OpenCostumeChanger" value="50108"/>
+    <Constant name="Studio_OpenListener" value="50109"/>
+    <Constant name="Studio_ReloadFile?" value="50110"/>
+
+    <Constant name="CameraAngles" value="131196"/>
+    <Constant name="SceneOrganiser" value="131247"/>
+    <Constant name="SoundRecorder" value="131416"/>
+
+    <Constant name="App_OnWMClose" value="106"/>
+    <Constant name="App_OnMDIWMClose" value="109"/>
+    <Constant name="App_ShowConfigDialog" value="40038"/>
+    <Constant name="App_ShowModalWindow?" value="44017"/>
+    <Constant name="App_GoToStudio" value="50060"/>
+    <Constant name="App_CreateTheatre" value="50064"/>
+    <Constant name="App_DeleteTheatre" value="50069"/>
+    <Constant name="App_ShowOpenFileDialog" value="50080"/>
+    <Constant name="App_DiscardMovie" value="50091"/>
+    <Constant name="App_EnableDisableHotkeys" value="50093"/>
+    <Constant name="App_SwapAcceleratorTable" value="50094"/>
+    <Constant name="App_StartSplotMachine" value="50095"/>
+    <Constant name="App_ShowErrorMessage" value="50105"/>
+
+    <Constant name="Theatre_Initialise" value="50065"/>
+    <Constant name="Theatre_StartPlayingMovie" value="50066"/>
+    <Constant name="Theatre_StopMovie" value="50067"/>
+    <Constant name="Theatre_RewindMovie" value="50068"/>
+
+    <Constant name="Splot_Shuffle" value="50084"/>
+    <Constant name="Splot_CloseSplotMachine" value="50086"/>
+    <Constant name="Splot_Cancel" value="50087"/>
+
+    <Constant name="InitialiseSoundRecorder" value="50088"/>
+    <Constant name="SoundRecorderInitialised" value="50089"/>
+
+    <Constant name="TheatreCreated" value="50100"/>
+
+    <Constant name="Char" value="100003"/>
+    <Constant name="Timer1S" value="100005"/>
+    <Constant name="MouseDown" value="100006"/>
+    <Constant name="Click" value="100008"/>
+    <Constant name="GotFocus" value="100009"/>
+    <Constant name="MouseDown_maybe" value="200000"/>
+    <Constant name="Update?" value="400000"/>
+    <Constant name="UpdateState_61A81" value="400001"/>
+    <Constant name="MouseEnterExit" value="400003"/>
+
+    <Constant name="ActivateMDIChild" value="110"/>
+    <Constant name="AppMainMenuHTOP" value="99650"/>
+
+    <Constant name="EasterEggVideo" value="7777"/>
+
+    <!-- Help topic constants from Creative Writer 2 -->
+    <Constant name="ercHelpFailed" value="0x20000104"/>
+    <Constant name="ercSTG_E_ACCESSDENIED" value="0x20000118"/>
+    <Constant name="ercSTG_E_SHAREVIOLATION" value="0x2000011a"/>
+    <Constant name="ercSTG_E_MEDIUMFULL" value="0x2000011b"/>
+    <Constant name="ercERROR_NOT_READY" value="0x2000012a"/>
+    <Constant name="ercERROR_INVALID_DRIVE" value="0x2000012b"/>
+    <Constant name="ercFileGeneral" value="0x20005803"/>
+    <Constant name="ercFilePerm" value="0x20005804"/>
+    <Constant name="ercFileOpen" value="0x20005805"/>
+    <Constant name="ercFileCreate" value="0x20005806"/>
+    <Constant name="ercFileSwapNames" value="0x20005807"/>
+    <Constant name="ercFileRename" value="0x20005808"/>
+    <Constant name="ercFniGeneral" value="0x20005809"/>
+    <Constant name="ercFniDelete" value="0x2000580a"/>
+    <Constant name="ercFniRename" value="0x2000580b"/>
+    <Constant name="ercFniMismatch" value="0x2000580c"/>
+    <Constant name="ercFniHidden" value="0x2000580d"/>
+    <Constant name="ercFniDirCreate" value="0x2000580e"/>
+    <Constant name="ercFneGeneral" value="0x2000580f"/>
+    <Constant name="ercCflOpen" value="0x20005810"/>
+    <Constant name="ercCflCreate" value="0x20005811"/>
+    <Constant name="ercCflSave" value="0x20005812"/>
+    <Constant name="ercCrfCantLoad" value="0x20005814"/>
+    <Constant name="ercSndmCantInit" value="0x20005815"/>
+    <Constant name="ercOomGdi" value="0x20005817"/>
+    <Constant name="ercGfxCantDraw" value="0x20005818"/>
+    <Constant name="ercGfxCantSetFont" value="0x20005819"/>
+    <Constant name="ercGfxNoFontList" value="0x2000581a"/>
+    <Constant name="ercGfxCantSetPalette" value="0x2000581b"/>
+    <Constant name="ercDlgCantGetArgs" value="0x2000581c"/>
+    <Constant name="ercDlgCantFind" value="0x2000581d"/>
+    <Constant name="ercCantSave" value="0x2000581f"/>
+    <Constant name="ercRtxdTooMuchText" value="0x20005820"/>
+    <Constant name="ercRtxdReadFailed" value="0x20005821"/>
+    <Constant name="ercRtxdSaveFailed" value="0x20005822"/>
+    <Constant name="ercMbmpCantOpenBitmap" value="0x20005824"/>
+    <Constant name="ercStnRead" value="0x20005825"/>
+    <Constant name="ercSndmWaveDeviceBusy" value="0x20005826"/>
+    <Constant name="ercSndmMidiDeviceBusy" value="0x20005827"/>
+    <Constant name="ercUIKGenericError" value="0x20005850"/>
+    <Constant name="ercUIKCantCacheTag" value="0x20005851"/>
+    <Constant name="ercUIKNoThumbnails" value="0x20005852"/>
+    <Constant name="ercUIKNoDefaultFont" value="0x20005853"/>
+    <Constant name="ercUIKPortfolioFailed" value="0x20005854"/>
+    <Constant name="ercUIKInvalidFilename" value="0x20005855"/>
+    <Constant name="ercUIKNoBrwsSelection" value="0x20005856"/>
+    <Constant name="ercUIKContentNotFound" value="0x20005857"/>
+    <Constant name="ercUIKBadSoundFile" value="0x20005858"/>
+    <Constant name="ercUIKNotMidiSound" value="0x20005859"/>
+    <Constant name="ercUIKFailedSaveUserLib" value="0x2000585b"/>
+    <Constant name="ercUIKCantInitApp" value="0x2000585c"/>
+    <Constant name="ercUIKNoUserDir" value="0x2000585d"/>
+    <Constant name="ercUIKBrowserBusy" value="0x2000585e"/>
+
+    <!-- Sounds -->
+    <Constant name="TicketBoothMcZeeBackground" value="98336"/>
+    <Constant name="SnackBarMcZee" value="98342"/>
+    <Constant name="StudioMcZeeHereAreAllTheTools" value="98574"/>
+    <Constant name="IdeasRoomMcZee" value="98356"/>
+    <Constant name="RollercoasterMcZee" value="98576"/>
+    <Constant name="TheatreAmbient" value="98577"/>
+    <Constant name="StudioOpen" value="98579"/>
+    <Constant name="TheatreMcZeeThisWayToBackstage" value="98567"/>
+    <Constant name="BackstageMcZeeEnterRoom1" value="98332"/>
+    <Constant name="TheatreMcZeeWelcome" value="98335"/>
+    <Constant name="TheatreMcZeeLetsGoSeeAMovie" value="98325"/>
+    <Constant name="BackstageMcZeeEnterRoom2" value="98331"/>
+    <Constant name="BackstageMcZeeEnterRoom3" value="98330"/>
+    <Constant name="IdeasRoomsMcZeeINeedSomeTalent" value="98563"/>
+    <Constant name="McZeeTurningHead" value="98333"/>
+    <Constant name="StudioRoomMcZeeHeyYouMadeIt" value="98362"/>
+    <Constant name="ProjectsRoomGadgetOpen" value="98578"/>
+    <Constant name="TheatreMcZeeShadowPuppets" value="98343"/>
+    <Constant name="StudioRoomMcZeePhoneTryingToPutTogetherADeal" value="98565"/>
+    <Constant name="IdeasRoomMcZeeLetsWhipUpAMovie" value="98357"/>
+    <Constant name="TheatreMcZeeCmonLetsExplore" value="98346"/>
+    <Constant name="TheatreProjectorStart" value="98573"/>
+    <Constant name="StudioRoomMcZeePhonePutOnHold" value="98564"/>
+    <Constant name="LobbyMcZeeTheatreStraightAhead" value="98340"/>
+    <Constant name="LobbyMcZeeTicketPlease" value="98339"/>
+    <Constant name="IdeasRoomMcZeeLetsFindOutMoreAboutTheseActors" value="98358"/>
+    <Constant name="TheatreMcZeeThatWasExcellent" value="98345"/>
+    <Constant name="TheatreMcZeeThisWayToBackstage1" value="98338"/>
+    <Constant name="ProjectsRoomMelanieRollerskates" value="98569"/>
+    <Constant name="BackstageMcZeeSoWhatWouldYouLikeToDo" value="98341"/>
+    <Constant name="IdeasRoomMcZeeThatsNiceIllKeepThat" value="98354"/>
+    <Constant name="IdeasRoomMcZeeOhNo" value="98355"/>
+    <Constant name="TheatreMcZeeHereAreTodaysFeatureFilms" value="98575"/>
+    <Constant name="TheatreMcZeeWouldYouLikeToSeeAMovie" value="98568"/>
+    <Constant name="BackstageMcZeeBingo" value="65539"/>
+    <Constant name="LobbyMcZeePopcorn" value="98364"/>
+
+
+</KnownConstants>
+
