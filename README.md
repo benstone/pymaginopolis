@@ -10,7 +10,7 @@ To load these scripts into Ghidra, open the Script Manager, choose Script Direct
 
 ## Python library
 
-Pymaginopolis is a Python library for reading and writing Microsoft 3D Movie Maker data files. It also includes a disassembler for the custom scripting engine that 3DMM uses to control the user interface. 
+Pymaginopolis is a Python library for reading and writing Microsoft 3D Movie Maker data files. It also includes an assembler and disassembler for the custom scripting engine that 3DMM uses to control the user interface. 
 
 ### Compatible applications
 
@@ -39,7 +39,10 @@ Microsoft 3D Movie Maker and Creative Writer 2 are built on the same game engine
 
 Most releases of 3DMM/CW2 have a partial set of opcode names embedded in the binary. The Japanese release of 3DMM has the full set of opcode names. There is also documentation for some of the opcodes in the [script engine patent](https://patents.google.com/patent/US5867175).
 
-The opcode list used by the disassembler is located in `pymaginopolis\scriptengine\data\opcodes.xml`. The disassembler will resolve constants defined in `pymaginopolis\data\constants-3dmm.xml`. Most of these constants are from manual reverse engineering of 3DMM.
+The opcode list used by the assembler is located in `pymaginopolis\scriptengine\data\opcodes.xml`. The disassembler will resolve constants defined in `pymaginopolis\data\constants-3dmm.xml`. Most of these constants are from manual reverse engineering of 3DMM.
+
+A sample script is included in the `examples` directory. This script will change the "Go to Imaginopolis" item on the main menu to pop a message box. To assemble the sample script and patch it into the app's data files, use [nmake](https://docs.microsoft.com/en-us/cpp/build/reference/nmake-reference?view=msvc-160) to run the makefile, or just run the assembler and xml2chk commands yourself. This will generate a new `BUILDING.CHK` file. To install the new script, copy `BUILDING.CHK` into the 3DMM install directory.
+
 
 ## Usage
 
@@ -59,6 +62,14 @@ Disassemble all of the scripts in a chunky file:
 python -m pymaginopolis.tools.disassembler D:\3DMOVIE\STUDIO.CHK
 ```
 
-## Roadmap
+Assemble a script:
 
-* I am currently working on an assembler for writing new scripts and patching them into existing chunky files.
+```
+python -m pymaginopolis.tools.assembler script.txt --output script.xml
+```
+
+Linking an assembled script into a chunky file:
+```
+python -m pymaginopolis.tools.xml2chk new-building.chk script.xml --template "D:\3DMOVIE\building.chk"
+```
+

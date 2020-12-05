@@ -2,6 +2,7 @@ import base64
 import logging
 import pathlib
 from xml.etree import ElementTree
+
 from xml.dom import minidom
 
 from pymaginopolis.chunkyfile import model as model, codecs as codecs
@@ -85,11 +86,12 @@ def chunky_file_to_xml(this_file, chunk_data_dir=None):
     return this_file_pretty_xml
 
 
-def xml_to_chunky_file(chunky_file, xml_path):
+def xml_to_chunky_file(chunky_file, xml_path, change_file_type=False):
     """
     Load chunks from an XML file and add them to a chunky file
     :param chunky_file: Existing chunky file instance that new chunks will be added to
     :param xml_path: XML filename
+    :param change_file_type: change the file type tag in the header
     """
     logger = logging.getLogger(__name__)
 
@@ -110,7 +112,7 @@ def xml_to_chunky_file(chunky_file, xml_path):
         chunky_file.endianness = endianness
         chunky_file.characterset = charset
     else:
-        if file_type is not None and chunky_file.file_type != file_type:
+        if file_type is not None and chunky_file.file_type != file_type and change_file_type:
             logger.warning("Changing file type from %s to %s", chunky_file.file_type, file_type)
             chunky_file.file_type = file_type
         if chunky_file.endianness != endianness:
@@ -169,8 +171,7 @@ def xml_to_chunky_file(chunky_file, xml_path):
             for new_child in chunk_children:
                 existing_child = [c for c in existing_chunk.children if c.chid == new_child.chid]
                 if len(existing_child) > 0:
-                    assert len(existing_child) == 1
-                    existing_child[0].ref = new_child.ref
+                    logger.warning("child %s: %s already exists" % (existing_chunk, existing_child))
                 else:
                     existing_chunk.children.append(new_child)
 

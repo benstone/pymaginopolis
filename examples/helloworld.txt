@@ -1,0 +1,29 @@
+# Sample script
+# This script changes the "Go to Imaginopolis" option on 3DMM's main menu.
+
+# Replace GLSC:0x3000b in BUILDING.CHK
+script GLSC 0x3000b
+
+# Create a string table. This will create a new GSTX chunk in the chunky file.
+stringtable 1234
+string 1 "Hello from the 3D Movie Maker scripting engine!"
+
+# Use the PlaySoundThis command to play McZee's dialog "Bingo!"
+push 0x1
+push 0
+# Number of times to play: just once is fine
+push 1
+# Volume: 0x10000 is the maximum volume
+push 0x10000
+push 1
+# sound chunk no
+push 65539
+# sound chunk tag = 'WAVE'
+push 0x57415645
+PlaySoundThis
+Pop
+
+# Pop a message box
+push string:1
+push 1
+AlertStr

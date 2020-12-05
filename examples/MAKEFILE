@@ -1,0 +1,15 @@
+# example of using nmake to assemble scripts
+
+INSTALL_PATH=C:\Program Files (x86)\Microsoft Kids\3D Movie Maker
+BUILD_DIR=build
+
+building.chk: script.xml
+    python -m pymaginopolis.tools.xml2chk building.chk script.xml --template "$(INSTALL_PATH)\building.chk"
+
+script.xml: helloworld.txt
+    python -m pymaginopolis.tools.assembler helloworld.txt --output script.xml --loglevel debug
+
+all: building.chk
+
+clean:
+    del building.chk script.xml

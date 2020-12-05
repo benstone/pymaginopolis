@@ -9,7 +9,7 @@ import pymaginopolis.scriptengine.formatter as formatter
 import pymaginopolis.tools.util as scriptutils
 
 SCRIPT_CHUNK_TAGS = {"GLOP", "GLSC"}
-STRING_TABLE_TAGS = {"GST "}
+STRING_TABLE_TAGS = {"GST ", "GSTX"}
 
 
 def parse_args():
