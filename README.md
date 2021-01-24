@@ -28,6 +28,7 @@ Pymaginopolis can read "chunky" data files used by the following Microsoft produ
 * Read/write support for some chunk types:
   * String tables (GST)
   * Scripts (GLOP, GLSC)
+* Send window messages to control a running instance of 3DMM
 
 ## Requirements
 
@@ -35,7 +36,7 @@ Pymaginopolis can read "chunky" data files used by the following Microsoft produ
 
 ## Script Engine
 
-Microsoft 3D Movie Maker and Creative Writer 2 are built on the same game engine. This game engine has a scripting system that is used to control user interface elements and 2D animation. Graphical objects (GOBs) can have scripts attached to them to handle messages such as when the user clicks on an object.
+Microsoft 3D Movie Maker and Creative Writer 2 are built on the same application engine. This application engine has a scripting system that is used to control user interface elements and 2D animation. Graphical objects (GOBs) can have scripts attached to them to handle messages such as when the user clicks on an object.
 
 Most releases of 3DMM/CW2 have a partial set of opcode names embedded in the binary. The Japanese release of 3DMM has the full set of opcode names. There is also documentation for some of the opcodes in the [script engine patent](https://patents.google.com/patent/US5867175).
 
@@ -69,7 +70,19 @@ python -m pymaginopolis.tools.assembler script.txt --output script.xml
 ```
 
 Linking an assembled script into a chunky file:
+
 ```
 python -m pymaginopolis.tools.xml2chk new-building.chk script.xml --template "D:\3DMOVIE\building.chk"
 ```
 
+Display the tree of graphical objects (GOBs) currently being rendered by the application:
+
+```
+python -m pymaginopolis.tools.dumpgobs
+```
+
+Set the time scale:
+
+```
+python -m pymaginopolis.tools.setclock --multiplier 10.0
+```
