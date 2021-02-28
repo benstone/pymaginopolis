@@ -164,8 +164,9 @@ def xml_to_chunky_file(chunky_file, xml_path, change_file_type=False):
             if chunk_name:
                 existing_chunk.name = chunk_name
             if chunk_flags != existing_chunk.flags:
-                logger.warning("%s: Changing flags to: %s", chunk_id, chunk_flags)
-                existing_chunk.flags = chunk_flags
+                # TODO: set flags correctly
+                # if the loner flag is not set correctly the file won't load
+                logger.warning("Chunk flags are different: %s vs %s", existing_chunk.flags, chunk_flags)
 
             # TODO: update existing children instead of just adding
             for new_child in chunk_children:

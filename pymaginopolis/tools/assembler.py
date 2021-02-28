@@ -1,9 +1,11 @@
 import argparse
 import logging
+import re
 
 import pymaginopolis.chunkyfile.chunkxml as chunkyfilexml
 import pymaginopolis.chunkyfile.model as chunkyfilemodel
 import pymaginopolis.chunkyfile.stringtable as stringtable
+import pymaginopolis.scriptengine.constants as knownconstants
 import pymaginopolis.scriptengine.formatter as scriptformatter
 import pymaginopolis.scriptengine.model as scriptmodel
 import pymaginopolis.scriptengine.opcodes as opcodes
@@ -12,34 +14,38 @@ from pymaginopolis.scriptengine.assembler import AssembleScriptException, assemb
 
 logger = logging.getLogger(__name__)
 
+LABEL_FORMAT = re.compile("^[A-Za-z_@$][A-Za-z0-9_@$]+$")
+STRING_ID_FORMAT = re.compile("^string\:((0x)?\d+)$", re.IGNORECASE)
+DEFINE_FORMAT = re.compile("^([A-Za-z0-9_@$]+)\s+equ\s+((0x)?[0-9a-fA-F]+)$")
+
 
 def parse_number(str):
     """ Parse a decimal or hex string as an integer """
-    if str.startswith("0x"):
-        value = int(str[2:], 16)
-    elif str.isnumeric():
-        value = int(str)
-    else:
-        raise ValueError("not a number: %s", str)
-    return value
+    return int(str, 0)
 
 
-def parse_value(param, labels=None):
-    """ Parse a string ID, label, or integer value. """
-    param_split = param.lower().split(":")
-    base = 0
-    if param_split[0] == "string":
-        # String ID
-        raw_value = parse_number(param_split[1])
-        base = 0x80000000
-    elif param_split[0] in labels:
-        # Label
-        raw_value = labels[param_split[0]] - 1
-        base = 0xCC000000
-    else:
-        # Integer
-        raw_value = parse_number(param)
-    return base + raw_value
+def parse_value(param, constants=None):
+    """ Parse a string ID, or integer value. """
+    # Check if it is a constant
+    if constants and param in constants:
+        return constants[param]
+
+    # Check if it's a string ID reference
+    string_id_match = STRING_ID_FORMAT.match(param)
+    if string_id_match:
+        return 0x80000000 + parse_number(string_id_match.group(1))
+
+    # Check if it is a label that we can resolve later
+    if LABEL_FORMAT.match(param):
+        return LabelReference(param)
+
+    # Try parsing as a number
+    return parse_number(param)
+
+
+class LabelReference():
+    def __init__(self, label_name):
+        self.label_name = label_name
 
 
 def parse_and_assemble(input_file, opcode_list, verbose=False):
@@ -49,6 +55,10 @@ def parse_and_assemble(input_file, opcode_list, verbose=False):
 
     # Generate reverse lookup for opcodes
     string_to_opcode = {opcode.mnemonic.lower(): opcode_id for opcode_id, opcode in opcode_list.items()}
+
+    # Load known constants
+    defs = knownconstants.load_constants()
+    defs = {v: k for k, v in defs.items()}
 
     string_table = None
     script = None
@@ -69,16 +79,44 @@ def parse_and_assemble(input_file, opcode_list, verbose=False):
             line = line[:line.find("#")]
         line = line.strip()
 
-        split_line = line.split(" ")
-        command = split_line[0].lower()
-        if command == "":
+        if len(line) == 0:
             continue
-        elif command == "stringtable":
+
+        # Check if this is a define
+        define_match = DEFINE_FORMAT.match(line)
+        if define_match:
+            define_name, define_value_str, _ = define_match.groups()
+            define_value = parse_number(define_value_str)
+            if define_name in defs:
+                logger.warning("replacing const value %s with 0x%x (was 0x%x)", define_name, define_value,
+                               defs[define_name])
+            defs[define_name] = define_value
+            continue
+
+        # Split line into components
+        split_line = re.match("^((?P<label>[A-Za-z0-9_@]+)\:\s*)?(?P<cmd>[A-Za-z]+)?\s*(?P<args>.*)$", line)
+        if not split_line:
+            continue
+
+        label_name = split_line.group("label")
+        command = split_line.group("cmd").lower()
+        args = split_line.group("args")
+
+        # Handle labels first
+        if label_name:
+            if label_name in labels:
+                raise AssembleScriptException("Label %s already defined" % label_name)
+            labels[label_name] = instruction_pointer
+
+            if not command:
+                continue
+
+        if command == "stringtable":
             # Create a new stringtable
 
-            if len(split_line) < 2:
+            if not args:
                 raise AssembleScriptException("syntax: stringtable <string-table-chunk-no>")
-            string_table_chunk_number = parse_number(split_line[1])
+            string_table_chunk_number = parse_number(args)
 
             if string_table is not None:
                 raise AssembleScriptException("String table already defined")
@@ -87,27 +125,40 @@ def parse_and_assemble(input_file, opcode_list, verbose=False):
             string_table = stringtable.StringTable()
 
         elif command == "string":
-            if len(split_line) < 3:
-                raise AssembleScriptException("syntax: string <id> <quoted-string>")
+            string_id = None
+            string_value = None
 
-            string_id = parse_number(split_line[1])
-            string_value = " ".join(split_line[2:]).strip("\"")
+            if args:
+                string_args = args.split()
+                if len(string_args) >= 2:
+                    string_id = parse_number(string_args[0])
+                    string_value = " ".join(string_args[1:]).strip("\"")
+
+            if not string_id or not string_value:
+                raise AssembleScriptException("syntax: string <id> <quoted-string>")
 
             logger.debug("Adding to string table: 0x%x -> %s", string_id, string_value)
             string_table[string_id] = string_value
         elif command == "script":
             # New script directive
-            if len(split_line) < 3:
+
+            script_chunk_tag = None
+            script_chunk_number = None
+
+            if args:
+                script_args = args.split()
+                if len(script_args) == 2:
+                    script_chunk_tag = script_args[0].upper()
+                    script_chunk_number = parse_number(script_args[1])
+
+            if script_chunk_tag is None or script_chunk_number is None:
                 raise AssembleScriptException("syntax: script chunk-tag chunk-number")
 
-            script_chunk_tag = split_line[1].upper()
             if script_chunk_tag != "GLSC" and script_chunk_tag != "GLOP":
                 raise AssembleScriptException("invalid script chunk tag type")
 
-            script_chunk_number = parse_number(split_line[2])
-
             if script is not None:
-                raise AssembleScriptException("Script already defined")
+                raise AssembleScriptException("Cannot have more than one script in a source file yet")
 
             # Use same version as in 3DMM
             compiler_version = chunkyfilemodel.Version(29, 16)
@@ -115,27 +166,21 @@ def parse_and_assemble(input_file, opcode_list, verbose=False):
                                         characterset=chunkyfilemodel.CharacterSet.ANSI,
                                         compilerversion=compiler_version)
 
-        elif command.endswith(":"):
-            # Labels
-            label_name = command[:-1]
-            if label_name in labels:
-                raise AssembleScriptException("Label %s already defined" % label_name)
-            labels[label_name] = instruction_pointer
         elif command == "push":
             # Special handling for PUSH instructions
-            if len(split_line) != 2:
+            if not args:
                 raise AssembleScriptException("syntax: push <value>")
 
-            value = parse_value(split_line[1], labels)
-            stack.append(value)
+            stack.append(parse_value(args, defs))
+
         elif command in string_to_opcode:
             # It's an opcode
             opcode = opcode_list[string_to_opcode[command]]
 
             # Check if we have a variable name
             variable_name = None
-            if len(split_line) > 1:
-                variable_name = split_line[1]
+            if args:
+                variable_name = args
 
             # If there's existing stuff on the stack, generate a PUSH instruction
             if len(stack) > 0:
@@ -159,11 +204,28 @@ def parse_and_assemble(input_file, opcode_list, verbose=False):
         script.instructions.append(push_instruction)
         instruction_pointer += push_instruction.number_of_dwords()
 
-    # Log labels
+    # Log defined labels
     if len(labels.items()) > 0 and verbose:
         logger.debug("Labels:")
         for label_name, label_instruction_pointer in labels.items():
             logger.debug("%s: %d", label_name, label_instruction_pointer)
+
+    # Resolve defined labels:
+    for ins_pos in range(0, len(script.instructions)):
+        if len(script.instructions[ins_pos].params) > 0:
+            for param_pos, param in enumerate(script.instructions[ins_pos].params):
+                if isinstance(param, LabelReference):
+
+                    # hack to handle output from disassembler
+                    if param.label_name[0] == "$":
+                        param.label_name = "@" + param.label_name[1:]
+
+                    label_ip = labels.get(param.label_name)
+                    if label_ip is None:
+                        raise AssembleScriptException("Label %s not found" % param.label_name)
+
+                    # Replace parameter with resolved value
+                    script.instructions[ins_pos].params[param_pos] = 0xCC000000 + label_ip
 
     # Create a chunky file containing the script and string table
     chunky_file = chunkyfilemodel.ChunkyFile(endianness=chunkyfilemodel.Endianness.LittleEndian,
@@ -179,8 +241,7 @@ def parse_and_assemble(input_file, opcode_list, verbose=False):
         string_table_data = string_table.to_buffer()
         string_table_chunk = chunkyfilemodel.Chunk(tag=string_table_chunk_tag,
                                                    number=string_table_chunk_number,
-                                                   data=string_table_data,
-                                                   flags=chunkyfilemodel.ChunkFlags.Loner)
+                                                   data=string_table_data)
 
         chunky_file.chunks.append(string_table_chunk)
 
@@ -195,8 +256,7 @@ def parse_and_assemble(input_file, opcode_list, verbose=False):
         script_data = assemble_script(script)
         script_chunk = chunkyfilemodel.Chunk(tag=script_chunk_tag,
                                              number=script_chunk_number,
-                                             data=script_data
-                                             )
+                                             data=script_data)
         if string_table:
             string_table_id = chunkyfilemodel.ChunkId(string_table_chunk_tag, string_table_chunk_number)
             string_table_child = chunkyfilemodel.ChunkChild(chid=0, ref=string_table_id)

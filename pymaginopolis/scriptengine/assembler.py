@@ -45,9 +45,8 @@ def assemble_script(script):
             first_dword = struct.pack("<BBBB", packed_variable_name[1], packed_variable_name[0],
                                       len(instruction.params), instruction.opcode)
             second_dword = packed_variable_name[2:6][::-1]
-
-            instruction_data.append(first_dword)
-            instruction_data.append(second_dword)
+            instruction_data.extend(first_dword)
+            instruction_data.extend(second_dword)
 
         else:
             # Non-Var:  | OPCODE  | CP | 0  | PARAM ONE         | PARAM TWO  |
