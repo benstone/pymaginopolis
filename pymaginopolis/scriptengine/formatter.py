@@ -18,7 +18,7 @@ def dword_to_ascii(i):
     return result[::-1]
 
 
-def format_param_value(i, known_constants=None):
+def format_param_value(i, known_constants=None, last_instruction=None):
     if known_constants is not None and i in known_constants:
         return known_constants[i]
     elif is_dword_ascii_hex(i):
@@ -27,9 +27,14 @@ def format_param_value(i, known_constants=None):
         # Addresses in a script are prefixed with 0xCC
         if (i >> 24) == 0xCC:
             # The raw value is added to the instruction pointer, then it is incremented
-            return "$L_%04x" % ((i & 0x00FFFFFF) + 1)
-        # String IDs are prefixed with 0x80
+            jump_target = ((i & 0x00FFFFFF) + 1)
+
+            if jump_target > last_instruction:
+                return "@end"
+            else:
+                return "$L_%04x" % jump_target
         elif (i >> 24) == 0x80:
+            # String IDs are prefixed with 0x80
             return "string:0x%x" % (i & 0x00FFFFFF)
         else:
             return hex(i)
@@ -64,6 +69,10 @@ class TextScriptFormatter(ScriptFormatter):
         result = f"{file_name_prefix}{cid} (0x{chunk_id.number:x})"
         result += "\n" + "=" * len(result) + "\n\n"
 
+        last_instruction_address = None
+        if len(script.instructions) > 0:
+            last_instruction_address = script.instructions[-1].address
+
         for instruction in script.instructions:
             components = []
 
@@ -93,8 +102,11 @@ class TextScriptFormatter(ScriptFormatter):
             # Print rest of the params as implicit Push instructions
             leftover_params = instruction.params
             for leftover_param in leftover_params:
-                components = [address_str, "Push", format_param_value(leftover_param, self.constants)]
+                components = [address_str, "Push",
+                              format_param_value(leftover_param, self.constants, last_instruction_address)]
                 result += "\t".join(components) + "\n"
                 address_str = "        "
+
+        result += "@end:\n"
 
         return result
